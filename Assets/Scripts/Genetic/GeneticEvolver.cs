@@ -60,7 +60,7 @@ public class GeneticEvolver
 
     private void generateNewDNAs()
     {
-        int numToCreate = GameProperties.POPULATION_SIZE - 2 - newDNAs.Count;
+        int numToCreate = GameProperties.POPULATION_SIZE - newDNAs.Count;
         for (int i = 0; i < numToCreate; ++i)
             newDNAs.Add(RagdollDNA.Generate());
     }

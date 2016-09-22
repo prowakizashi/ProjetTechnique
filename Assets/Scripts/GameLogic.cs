@@ -7,29 +7,27 @@ public class GameLogic : MonoBehaviour {
     [SerializeField]
     private GameObject characterPrefab;
     [SerializeField]
-    private BallThrower ballThrower;
+    private Gunner gunner;
 
-    private GameObject currentCaracter = null;
+    private GameObject currentCharacter = null;
     private GeneticEvolver evolver = null;
     private Dictionary<RagdollDNA, float> DNAScores = new Dictionary<RagdollDNA, float>();
     private int currentIndex = 0;
 
     private bool gameStarted = false;
     private float SequenceStartTime = 0;
-    private APunchSequence punchSequence = null;
 
     void Start()
     {
-        ballThrower.Init(IsGameRunning, OnSequenceEnd);
         StartGame();
     }
 
     public void StartGame()
     {
         //TODO : notify gui
-
+        gunner.SetupSequence(GameProperties.GetSequenceCtor(gunner.CannonNb), GameProperties.GetSequenceGrower());
+        gunner.OnEndOfSequence += OnSequenceEnd;
         gameStarted = true;
-        punchSequence = new RandomPunchSequence();
         StartExperience();
     }
 
@@ -50,6 +48,7 @@ public class GameLogic : MonoBehaviour {
         //TODO : notify gui
 
         MakeANewGeneration();
+        gunner.MakeSequenceGrow();
         StartSequence();
     }
 
@@ -71,13 +70,12 @@ public class GameLogic : MonoBehaviour {
     {
         //TODO : notify gui
 
-        if (currentCaracter != null)
-            DestroyImmediate(currentCaracter);
-        currentCaracter = Instantiate(characterPrefab);
-        currentCaracter.GetComponent<RagdollCharacter>().OnHitFace = OnSequenceEnd;
-        currentCaracter.GetComponent<GeneticAI>().InitWithDNA(evolver.newDNAs[currentIndex]);
+        if (currentCharacter != null)
+            Destroy(currentCharacter);
+        currentCharacter = Instantiate(characterPrefab);
+        currentCharacter.GetComponent<GeneticAI>().InitWithDNA(evolver.newDNAs[currentIndex]);
         SequenceStartTime = Time.realtimeSinceStartup;
-        ballThrower.StartSequence(punchSequence);
+        gunner.StartFireSequence();
     }
 
     private void OnSequenceEnd()
