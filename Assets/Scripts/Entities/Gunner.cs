@@ -98,6 +98,7 @@ public class Gunner : MonoBehaviour
         }
         else
         {
+            yield return new WaitForSeconds(GameProperties.MAX_TIME_BETWEEN_SHOTS);
             EndSequence();
         }
 	}
