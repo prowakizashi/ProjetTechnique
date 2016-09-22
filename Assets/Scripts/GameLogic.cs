@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class GameLogic : MonoBehaviour {
 
@@ -18,15 +19,18 @@ public class GameLogic : MonoBehaviour {
     private float SequenceStartTime = 0;
     private APunchSequence punchSequence = null;
 
+    //Actions
+    public Action OnGameStart;
+    public Action OnGameStop;
+
     void Start()
     {
         ballThrower.Init(IsGameRunning, OnSequenceEnd);
-        StartGame();
     }
 
     public void StartGame()
     {
-        //TODO : notify gui
+        OnGameStart();
 
         gameStarted = true;
         punchSequence = new RandomPunchSequence();
@@ -35,12 +39,12 @@ public class GameLogic : MonoBehaviour {
 
     public void StopGame()
     {
-        //TODO : notify gui
+        OnGameStop();
 
         gameStarted = false;
     }
 
-    private bool IsGameRunning()
+    public bool IsGameRunning()
     {
         return gameStarted;
     }

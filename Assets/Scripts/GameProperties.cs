@@ -3,6 +3,7 @@ using System.Collections;
 
 public static class GameProperties
 {
+    // EDITABLE
     public static int CROSS_COUNT;
     public static int MUTATION_RATE;
     public static int POPULATION_SIZE = 6;
