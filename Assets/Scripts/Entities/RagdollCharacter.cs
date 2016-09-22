@@ -14,8 +14,6 @@ public class RagdollCharacter : MonoBehaviour {
     private Rigidbody rightHand;
 
     private Rigidbody[] muscles = new Rigidbody[4];
-
-    public Action OnHitFace = null;
     
     void Awake ()
     {
