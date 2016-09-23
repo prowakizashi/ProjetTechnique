@@ -8,9 +8,17 @@ public static class GameProperties
     public static int MUTATION_RATE;
     public static int POPULATION_SIZE = 6;
 
+    public static float MAIN_VARIATION_CIRCLE_RADIUS = 2f;
+    public static float MAIN_POWER_MIN = 10f;
+    public static float MAIN_POWER_MAX = 20f;
+    public static float VARIATION_SPHERE_RADIUS = 1f;
+    public static float LIMB_POWER_MIN = 10f;
+    public static float LIMB_POWER_MAX = 20f;
+
     // FIXED
-    public static int MUSCLE_COUNT = 4;
-    public static float IMPULSION_FREQUENCY = 1.5f;
+    //public static int MUSCLE_COUNT = 4;
+    //public static float IMPULSION_FREQUENCY = 1.5f;
+    public static int LIMB_CABLE_COUNT = 4;
 
     // GUN PARAMS
     public static Sequence.Type SHOTS_SEQUENCE_TYPE = Sequence.Type.Random;

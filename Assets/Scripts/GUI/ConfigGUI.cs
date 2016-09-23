@@ -29,10 +29,10 @@ public class ConfigGUI : MonoBehaviour {
     {
         if (!gameIsRunning)
         {
-            gameLogic.StartGame();
             GameProperties.CROSS_COUNT = int.Parse(CrossField.text);
             GameProperties.MUTATION_RATE = int.Parse(MutationField.text);
             GameProperties.POPULATION_SIZE = int.Parse(PopulationField.text);
+            gameLogic.StartGame();
         }
         else
             gameLogic.StopGame();
