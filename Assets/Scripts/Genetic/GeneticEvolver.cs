@@ -18,8 +18,7 @@ public class GeneticEvolver
             return;
         }
 
-        dnas.OrderByDescending(e => { return e.Value; });
-        DNAs = dnas;
+        DNAs = dnas.OrderByDescending(e => { return e.Value; }).ToDictionary(pair => pair.Key, pair => pair.Value);
         pickBestDNAs();
         crossChromosomes();
         generateNewDNAs();

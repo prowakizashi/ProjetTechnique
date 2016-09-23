@@ -19,15 +19,16 @@ public class GameLogic : MonoBehaviour {
     private float SequenceStartTime = 0;
 
     //Actions
+    public Action OnGameStart;
+    public Action OnGameStop;
     public Action OnExperienceStart;
     public Action OnExperienceStop;
     public Action<int, float> OnSequenceStop;
-    public Action OnGameStart;
-    public Action OnGameStop;
 
     public void StartGame()
     {
-        OnGameStart();
+        if (OnGameStart != null)
+            OnGameStart();
         gunner.SetupSequence(GameProperties.GetSequenceCtor(gunner.CannonNb), GameProperties.GetSequenceGrower());
         gunner.OnEndOfSequence += OnSequenceEnd;
         gameStarted = true;
@@ -36,7 +37,8 @@ public class GameLogic : MonoBehaviour {
 
     public void StopGame()
     {
-        OnGameStop();
+        if (OnGameStop != null)
+            OnGameStop();
 
         gameStarted = false;
         gunner.OnEndOfSequence -= OnSequenceEnd;
@@ -52,7 +54,8 @@ public class GameLogic : MonoBehaviour {
 
     private void StartExperience()
     {
-        OnExperienceStart();
+        if (OnExperienceStart != null)
+            OnExperienceStart();
 
         MakeANewGeneration();
         gunner.MakeSequenceGrow();
@@ -62,13 +65,15 @@ public class GameLogic : MonoBehaviour {
     private void MakeANewGeneration()
     {
         evolver = new GeneticEvolver(DNAScores);
+        Debug.Log("New generation made giving " + evolver.newDNAs.Count + " species.");
         currentIndex = 0;
         DNAScores.Clear();
     }
 
     private void OnExperienceEnd()
     {
-        OnExperienceStart();
+        if (OnExperienceStart != null)
+            OnExperienceStart();
 
         StartExperience();
     }
@@ -78,6 +83,7 @@ public class GameLogic : MonoBehaviour {
         if (currentCharacter != null)
             Destroy(currentCharacter);
         currentCharacter = Instantiate(characterPrefab);
+        Debug.Log("Current test: " + currentIndex + " / " + evolver.newDNAs.Count);
         currentCharacter.GetComponent<GeneticAI>().InitWithDNA(evolver.newDNAs[currentIndex]);
         SequenceStartTime = Time.realtimeSinceStartup;
         gunner.StartFireSequence();
@@ -86,7 +92,8 @@ public class GameLogic : MonoBehaviour {
     private void OnSequenceEnd()
     {
         float score = Time.realtimeSinceStartup - SequenceStartTime;
-        OnSequenceStop(currentIndex, score);
+        if (OnSequenceStop != null)
+            OnSequenceStop(currentIndex, score);
         DNAScores.Add(evolver.newDNAs[currentIndex++], score);
         if (currentIndex < GameProperties.POPULATION_SIZE)
             StartSequence();

@@ -19,7 +19,6 @@ public class ScoreGUI : MonoBehaviour
         gameLogic = GameObject.FindGameObjectWithTag("GameLogic").GetComponent<GameLogic>();
         gameLogic.OnGameStart = () => { OpenWindow(true); };
         gameLogic.OnGameStop = () => { OpenWindow(false); };
-        gameLogic.OnExperienceStart = () => { ClearScores(); };
         gameLogic.OnSequenceStop = AddScore;
     }
 
@@ -38,9 +37,11 @@ public class ScoreGUI : MonoBehaviour
 
     private void AddScore(int pos, float score)
     {
+        if (pos == 0)
+            ClearScores();
         var obj = Instantiate(rowPrefab);
         obj.transform.SetParent(scoreList.transform);
         obj.transform.localScale = Vector3.one;
-        obj.GetComponent<RowScoreGUI>().SetScore(pos, score);
+        obj.GetComponent<RowScoreGUI>().SetScore(pos + 1, score);
     }
 }
