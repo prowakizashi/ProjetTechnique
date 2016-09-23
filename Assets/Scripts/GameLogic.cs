@@ -91,14 +91,14 @@ public class GameLogic : MonoBehaviour {
     private IEnumerator waitForStanceThenStart()
     {
         yield return new WaitForSeconds(3); // wait for stance to stabilize before shooting
-        SequenceStartTime = Time.realtimeSinceStartup;
+        SequenceStartTime = Time.time;
         print(SequenceStartTime);
         gunner.StartFireSequence();
     }
 
     private void OnSequenceEnd()
     {
-        float score = Time.realtimeSinceStartup - SequenceStartTime;
+        float score = Time.time - SequenceStartTime;
         if (OnSequenceStop != null)
             OnSequenceStop(currentIndex, score);
         DNAScores.Add(evolver.newDNAs[currentIndex++], score);
