@@ -85,7 +85,14 @@ public class GameLogic : MonoBehaviour {
         currentCharacter = Instantiate(characterPrefab);
         Debug.Log("Current test: " + currentIndex + " / " + evolver.newDNAs.Count);
         currentCharacter.GetComponent<GeneticAI>().InitWithDNA(evolver.newDNAs[currentIndex]);
+        StartCoroutine("waitForStanceThenStart");
+    }
+
+    private IEnumerator waitForStanceThenStart()
+    {
+        yield return new WaitForSeconds(3); // wait for stance to stabilize before shooting
         SequenceStartTime = Time.realtimeSinceStartup;
+        print(SequenceStartTime);
         gunner.StartFireSequence();
     }
 

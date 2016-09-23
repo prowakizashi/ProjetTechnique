@@ -64,18 +64,11 @@ public class Gunner : MonoBehaviour
     {
         seq = ctor();
         sequenceGrower = grower;
-        //MakeSequenceGrow();
     }
 
     public void MakeSequenceGrow()
     {
         sequenceGrower(seq);
-    }
-
-    private void Update()
-    {
-        if (!IsSequenceRunning && Input.GetKeyDown(KeyCode.F))
-            StartFireSequence();
     }
 
     public void StartFireSequence()
@@ -124,6 +117,7 @@ public class Gunner : MonoBehaviour
         poolIt = poolIt % (uint)bulletPool.Length;
 
         bullet.transform.position = cannon.position;
+        bullet.GetComponent<Bullet>().Reset();
         bullet.gameObject.SetActive(true);
         bullet.velocity = Vector2.zero;
         bullet.AddForce(impulseVector, ForceMode.Impulse);
