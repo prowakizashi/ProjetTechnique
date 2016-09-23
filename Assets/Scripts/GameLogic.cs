@@ -19,12 +19,11 @@ public class GameLogic : MonoBehaviour {
     private float SequenceStartTime = 0;
 
     //Actions
+    public Action OnExperienceStart;
+    public Action OnExperienceStop;
+    public Action<int, float> OnSequenceStop;
     public Action OnGameStart;
     public Action OnGameStop;
-
-    void Start()
-    {
-    }
 
     public void StartGame()
     {
@@ -42,6 +41,7 @@ public class GameLogic : MonoBehaviour {
         gameStarted = false;
         gunner.OnEndOfSequence -= OnSequenceEnd;
         gunner.EndSequence();
+        DNAScores.Clear();
         Destroy(currentCharacter);
     }
 
@@ -52,7 +52,7 @@ public class GameLogic : MonoBehaviour {
 
     private void StartExperience()
     {
-        //TODO : notify gui
+        OnExperienceStart();
 
         MakeANewGeneration();
         gunner.MakeSequenceGrow();
@@ -68,15 +68,13 @@ public class GameLogic : MonoBehaviour {
 
     private void OnExperienceEnd()
     {
-        //TODO : notify gui
+        OnExperienceStart();
 
         StartExperience();
     }
 
     private void StartSequence()
     {
-        //TODO : notify gui
-
         if (currentCharacter != null)
             Destroy(currentCharacter);
         currentCharacter = Instantiate(characterPrefab);
@@ -87,9 +85,8 @@ public class GameLogic : MonoBehaviour {
 
     private void OnSequenceEnd()
     {
-        //TODO : notify gui
-
         float score = Time.realtimeSinceStartup - SequenceStartTime;
+        OnSequenceStop(currentIndex, score);
         DNAScores.Add(evolver.newDNAs[currentIndex++], score);
         if (currentIndex < GameProperties.POPULATION_SIZE)
             StartSequence();
