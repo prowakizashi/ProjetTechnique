@@ -11,7 +11,7 @@ public static class GameProperties
     public static float MAIN_VARIATION_CIRCLE_RADIUS = 2f;
     public static float MAIN_POWER_MIN = 10f;
     public static float MAIN_POWER_MAX = 20f;
-    public static float VARIATION_SPHERE_RADIUS = 1f;
+    public static float VARIATION_SPHERE_RADIUS = 2f;
     public static float LIMB_POWER_MIN = 10f;
     public static float LIMB_POWER_MAX = 20f;
 

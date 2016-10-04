@@ -92,7 +92,6 @@ public class GameLogic : MonoBehaviour {
     {
         yield return new WaitForSeconds(3); // wait for stance to stabilize before shooting
         SequenceStartTime = Time.time;
-        print(SequenceStartTime);
         gunner.StartFireSequence();
     }
 
